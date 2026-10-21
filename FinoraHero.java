@@ -14,76 +14,75 @@ public class FinoraHero extends JFrame {
     private final Color mintGreen = new Color(211, 245, 232);
     private final Color darkText = new Color(0, 48, 43);
 
-    
-public FinoraHero() {
-    setTitle("Finora | Personal Finance Tracker");
-    setSize(1366, 760);
-    setMinimumSize(new Dimension(1000, 650));
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setLocationRelativeTo(null);
-    setLayout(new BorderLayout(0, 0));
+    public FinoraHero() {
+        setTitle("Finora | Personal Finance Tracker");
+        setSize(1366, 760);
+        setMinimumSize(new Dimension(1000, 650));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(0, 0));
 
-    // Main background
-    getContentPane().setBackground(Color.WHITE);
+        // Main background
+        getContentPane().setBackground(Color.WHITE);
 
-    // Add navigation bar
-    add(createNavigationBar(), BorderLayout.NORTH);
+        // Add navigation bar
+        add(createNavigationBar(), BorderLayout.NORTH);
 
-    // Main center panel
-    JPanel centerPanel = new JPanel();
-    centerPanel.setLayout(
-            new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-    centerPanel.setBackground(Color.WHITE);
-    centerPanel.setBorder(
-            new EmptyBorder(10, 18, 8, 18));
+        // Main center panel
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(
+                new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBackground(Color.WHITE);
+        centerPanel.setBorder(
+                new EmptyBorder(10, 18, 8, 18));
 
-    // Add Hero Section
-    JPanel heroPanel = createHeroSection();
-    heroPanel.setPreferredSize(new Dimension(1300, 480));
-    heroPanel.setMinimumSize(new Dimension(950, 450));
-    heroPanel.setMaximumSize(
-            new Dimension(Integer.MAX_VALUE, 480));
-    heroPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Add Hero Section
+        JPanel heroPanel = createHeroSection();
+        heroPanel.setPreferredSize(new Dimension(1300, 480));
+        heroPanel.setMinimumSize(new Dimension(950, 450));
+        heroPanel.setMaximumSize(
+                new Dimension(Integer.MAX_VALUE, 480));
+        heroPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-    centerPanel.add(heroPanel);
+        centerPanel.add(heroPanel);
 
-    // Space between Hero and Key Features
-    centerPanel.add(Box.createVerticalStrut(20));
+        // Space between Hero and Key Features
+        centerPanel.add(Box.createVerticalStrut(20));
 
-    // Add Key Features Section
-    JPanel featuresPanel = createKeyFeaturesSection();
-    featuresPanel.setPreferredSize(new Dimension(1300, 360));
-    featuresPanel.setMinimumSize(new Dimension(950, 360));
-    featuresPanel.setMaximumSize(
-            new Dimension(Integer.MAX_VALUE, 360));
-    featuresPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Add Key Features Section
+        JPanel featuresPanel = createKeyFeaturesSection();
+        featuresPanel.setPreferredSize(new Dimension(1300, 360));
+        featuresPanel.setMinimumSize(new Dimension(950, 360));
+        featuresPanel.setMaximumSize(
+                new Dimension(Integer.MAX_VALUE, 360));
+        featuresPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-    centerPanel.add(featuresPanel);
+        centerPanel.add(featuresPanel);
 
-    // Space between Key Features and Why Choose Finora
-    centerPanel.add(Box.createVerticalStrut(20));
+        // Space between Key Features and Why Choose Finora
+        centerPanel.add(Box.createVerticalStrut(20));
 
-    // Add Why Choose Finora and How It Works Section
-    JPanel whyAndHowPanel = createWhyAndHowSection();
-    whyAndHowPanel.setPreferredSize(new Dimension(1300, 360));
-    whyAndHowPanel.setMinimumSize(new Dimension(950, 360));
-    whyAndHowPanel.setMaximumSize(
-            new Dimension(Integer.MAX_VALUE, 360));
-    whyAndHowPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        // Add Why Choose Finora and How It Works Section
+        JPanel whyAndHowPanel = createWhyAndHowSection();
+        whyAndHowPanel.setPreferredSize(new Dimension(1300, 360));
+        whyAndHowPanel.setMinimumSize(new Dimension(950, 360));
+        whyAndHowPanel.setMaximumSize(
+                new Dimension(Integer.MAX_VALUE, 360));
+        whyAndHowPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-    centerPanel.add(whyAndHowPanel);
+        centerPanel.add(whyAndHowPanel);
 
-    // Add scrolling to view all sections
-    JScrollPane scrollPane = new JScrollPane(centerPanel);
-    scrollPane.setBorder(null);
-    scrollPane.setHorizontalScrollBarPolicy(
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    scrollPane.setVerticalScrollBarPolicy(
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.getVerticalScrollBar().setUnitIncrement(18);
+        // Add scrolling to view all sections
+        JScrollPane scrollPane = new JScrollPane(centerPanel);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBarPolicy(
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(18);
 
-    add(scrollPane, BorderLayout.CENTER);
-}
+        add(scrollPane, BorderLayout.CENTER);
+    }
 
     // ---------------- NAVIGATION BAR ----------------
 
@@ -101,7 +100,7 @@ public FinoraHero() {
 
         if (logoIcon != null) {
             Image logoImage = logoIcon.getImage().getScaledInstance(
-                    200,120, Image.SCALE_SMOOTH);
+                    200, 120, Image.SCALE_SMOOTH);
 
             logoLabel = new JLabel(new ImageIcon(logoImage));
         } else {
@@ -132,23 +131,15 @@ public FinoraHero() {
         navbar.add(buttonPanel, BorderLayout.EAST);
 
         // Button actions
-        loginButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Login page will open here.",
-                        "Login",
-                        JOptionPane.INFORMATION_MESSAGE
-                )
-        );
+        // CHANGED: Open the login page
+        loginButton.addActionListener(e -> {
+            new FinoraLogin().setVisible(true);
+        });
 
-        registerButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Registration page will open here.",
-                        "Register",
-                        JOptionPane.INFORMATION_MESSAGE
-                )
-        );
+        // Register action unchanged
+        registerButton.addActionListener(e -> {
+            new FinoraRegistration().setVisible(true);
+        });
 
         return navbar;
     }
@@ -212,7 +203,7 @@ public FinoraHero() {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(0,0, 60, 80);
+        gbc.insets = new Insets(0, 0, 60, 80);
 
         heroPanel.add(imagePanel, gbc);
 
@@ -272,13 +263,15 @@ public FinoraHero() {
         actionPanel.add(loginButton);
         actionPanel.add(registerButton);
 
-        loginButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(
-                        this, "Login page will open here."));
+        // CHANGED: Open the login page
+        loginButton.addActionListener(e -> {
+            new FinoraLogin().setVisible(true);
+        });
 
-        registerButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(
-                        this, "Registration page will open here."));
+        // Register action unchanged
+        registerButton.addActionListener(e -> {
+            new FinoraRegistration().setVisible(true);
+        });
 
         textPanel.add(heading1);
         textPanel.add(Box.createVerticalStrut(2));
@@ -305,7 +298,7 @@ public FinoraHero() {
         if (heroImage != null) {
 
             Image scaledImage = heroImage.getScaledInstance(
-                    600,450, Image.SCALE_SMOOTH);
+                    600, 450, Image.SCALE_SMOOTH);
 
             JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
             imageLabel.setOpaque(false);
@@ -562,8 +555,7 @@ public FinoraHero() {
         return card;
     }
 
-
-     // ---------------- WHY CHOOSE FINORA + HOW IT WORKS ----------------
+    // ---------------- WHY CHOOSE FINORA + HOW IT WORKS ----------------
 
     private JPanel createWhyAndHowSection() {
         JPanel mainPanel = new JPanel(new GridLayout(1, 2, 16, 0));
