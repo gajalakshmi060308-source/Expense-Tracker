@@ -328,9 +328,11 @@ public class FinoraLogin extends JFrame {
             return;
         }
 
-        String storedHash = null;
+String storedHash = null;
+String fullName = null;
 
-        String sql = "SELECT password_hash FROM users WHERE email = ?";
+String sql =
+        "SELECT full_name, password_hash FROM users WHERE email = ?";
 
         try (Connection con = DBConnection.getConnection()) {
 
@@ -349,7 +351,8 @@ public class FinoraLogin extends JFrame {
 
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        storedHash = rs.getString("password_hash");
+                        fullName = rs.getString("full_name");
+storedHash = rs.getString("password_hash");
                     }
                 }
             }
@@ -371,21 +374,26 @@ public class FinoraLogin extends JFrame {
 
         Arrays.fill(password, '\0');
 
-        if (valid) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Login successful! Welcome back to Finora.",
-                    "Success",
-                    JOptionPane.INFORMATION_MESSAGE);
+        if (valid && fullName != null) {
+    JOptionPane.showMessageDialog(
+            this,
+            "Login successful! Welcome back to Finora."
+    );
 
-            // Open your expense tracker dashboard here later.
-        } else {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Invalid email address or password.",
-                    "Login Failed",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+    dispose();
+
+    final String loggedInName = fullName;
+
+    SwingUtilities.invokeLater(() -> {
+        new DashboardFrame(loggedInName, email).setVisible(true);
+    });
+
+} else {
+    JOptionPane.showMessageDialog(
+            this,
+            "Invalid email address or password."
+    );
+}
     }
 
     private boolean verifyPassword(char[] password, String storedHash) {

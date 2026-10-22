@@ -11,7 +11,7 @@ public class DBConnection {
     private static final String USER = "root";
 
     // Replace this with your actual MySQL password
-    private static final String PASSWORD = "Gaja123@#";
+    private static final String PASSWORD = "Gopik#246";
 
     public static Connection getConnection() {
         Connection con = null;
@@ -47,6 +47,22 @@ public class DBConnection {
                         """;
 
                 stmt.executeUpdate(createTable);
+                String createIncomeTable = """
+    CREATE TABLE IF NOT EXISTS incomes (
+        income_id INT PRIMARY KEY AUTO_INCREMENT,
+        user_id INT NOT NULL,
+        source VARCHAR(60) NOT NULL,
+        amount DECIMAL(12,2) NOT NULL,
+        income_date DATE NOT NULL,
+        description VARCHAR(500),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )
+    """;
+
+stmt.executeUpdate(createIncomeTable);
+
+System.out.println("Income table is ready!");
             }
 
             System.out.println(
