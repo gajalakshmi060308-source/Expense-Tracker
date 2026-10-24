@@ -9,7 +9,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.math.BigDecimal;
-import javax.imageio.ImageIO;
+
 
 public class AddIncomeFrame extends JFrame {
 
@@ -27,90 +27,51 @@ public class AddIncomeFrame extends JFrame {
     private JTextField dateField;
     private JTextArea descriptionArea;
 
-    public AddIncomeFrame(String fullName, String email) {
-        this.fullName = fullName;
-        this.email = email;
+   
+public AddIncomeFrame(String fullName, String email) {
+    this.fullName = fullName;
+    this.email = email;
 
-        setTitle("Finora | Add Income");
-        setSize(1450, 900);
-        setMinimumSize(new Dimension(1050, 720));
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+    setTitle("Finora | Add Income");
+    setSize(1450, 900);
+    setMinimumSize(new Dimension(1050, 720));
+    setLocationRelativeTo(null);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setLayout(new BorderLayout());
 
-        add(createHeader(), BorderLayout.NORTH);
+    // Main content: left introduction and right form
+    JPanel content = new JPanel(new GridBagLayout());
+    content.setBackground(mint);
+    content.setBorder(new EmptyBorder(28, 42, 28, 42));
 
-        JPanel content = new JPanel(new GridBagLayout());
-        content.setBackground(mint);
-        content.setBorder(new EmptyBorder(28, 42, 28, 42));
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.gridy = 0;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.weighty = 1;
+    gbc.insets = new Insets(0, 14, 0, 14);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 1;
-        gbc.insets = new Insets(0, 14, 0, 14);
+    JPanel left = createLeftPanel();
+    gbc.gridx = 0;
+    gbc.weightx = 0.88;
+    content.add(left, gbc);
 
-        JPanel left = createLeftPanel();
-        gbc.gridx = 0;
-        gbc.weightx = 0.88;
-        content.add(left, gbc);
+    JPanel form = createFormPanel();
+    gbc.gridx = 1;
+    gbc.weightx = 1.12;
+    content.add(form, gbc);
 
-        JPanel form = createFormPanel();
-        gbc.gridx = 1;
-        gbc.weightx = 1.12;
-        content.add(form, gbc);
+    // Navbar with logo, hamburger sidebar and profile dropdown
+    Runnable logoutAction = () -> {
+        dispose();
+        new FinoraLogin().setVisible(true);
+    };
 
-        add(content, BorderLayout.CENTER);
-    }
+    NavigationPanel navigation =
+            new NavigationPanel(fullName, email, logoutAction);
 
-    // ---------------- HEADER ----------------
-
-    private JPanel createHeader() {
-        JPanel header = new JPanel(new BorderLayout());
-        header.setBackground(Color.WHITE);
-        header.setBorder(new EmptyBorder(10, 32, 10, 28));
-        header.setPreferredSize(new Dimension(1400, 88));
-
-        JPanel brand = new JPanel(
-                new FlowLayout(FlowLayout.LEFT, 12, 3));
-        brand.setBackground(Color.WHITE);
-
-        JLabel logo = new JLabel();
-
-        try {
-            BufferedImage image =
-                    ImageIO.read(new File("images/logo.png.jpeg"));
-
-            Image resized = image.getScaledInstance(
-                    48, 48, Image.SCALE_SMOOTH);
-
-            logo.setIcon(new ImageIcon(resized));
-        } catch (Exception e) {
-            // Continue showing the brand name if the logo is unavailable.
-            System.out.println(
-                    "Logo not found: images/logo.png.jpeg");
-        }
-
-       // JLabel name = new JLabel("Finora");
-        //name.setFont(new Font("Serif", Font.BOLD, 36));
-        //name.setForeground(green);
-
-        brand.add(logo);
-        //brand.add(name);
-
-        header.add(brand, BorderLayout.WEST);
-
-        Runnable logout = () -> {
-            dispose();
-            new FinoraHero().setVisible(true);
-        };
-
-        header.add(
-                new NavigationPanel(fullName, email, logout),
-                BorderLayout.WEST);
-
-        return header;
-    }
+    add(navigation, BorderLayout.NORTH);
+    add(content, BorderLayout.CENTER);
+}
 
     // ---------------- LEFT PANEL ----------------
 
