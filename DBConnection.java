@@ -63,6 +63,46 @@ public class DBConnection {
 stmt.executeUpdate(createIncomeTable);
 
 System.out.println("Income table is ready!");
+
+String createExpenseTable="""
+CREATE TABLE IF NOT EXISTS expenses (
+    expense_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    category VARCHAR(60) NOT NULL,
+    amount DECIMAL(12,2) NOT NULL,
+    expense_date DATE NOT NULL,
+    payment_method VARCHAR(30),
+    description VARCHAR(500),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+""";
+stmt.executeUpdate(createExpenseTable);
+String createBudgetTable="""
+CREATE TABLE IF NOT EXISTS budgets (
+    budget_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    budget_month DATE NOT NULL,
+    category VARCHAR(60) NOT NULL,
+    budget_amount DECIMAL(12,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_user_month_category
+        (user_id, budget_month, category),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+""";
+stmt.executeUpdate(createBudgetTable);
+String createCategoryTable="""
+CREATE TABLE IF NOT EXISTS expense_categories (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    category_name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_user_category (user_id, category_name),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);""";
+stmt.executeUpdate(createCategoryTable);
+
             }
 
             System.out.println(
