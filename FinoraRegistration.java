@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.security.SecureRandom;
-import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
@@ -29,131 +28,72 @@ public class FinoraRegistration extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBackground(mint);
 
         mainPanel.add(createHeader(), BorderLayout.NORTH);
 
-        JPanel content = new JPanel(new GridLayout(1, 2, 25, 0));
+        // Keep only the registration form centered on the page.
+        JPanel content = new JPanel(new GridBagLayout());
         content.setBackground(mint);
-        content.setBorder(new EmptyBorder(35, 35, 35, 35));
+        content.setBorder(new EmptyBorder(20, 30, 30, 30));
 
-        content.add(createWelcomePanel());
-        content.add(createFormPanel());
+        JPanel formCard = createFormPanel();
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
+
+        content.add(formCard, gbc);
         mainPanel.add(content, BorderLayout.CENTER);
+
         setContentPane(mainPanel);
     }
 
+    // Logo on the left, without extra header details.
     private JPanel createHeader() {
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
-        header.setBorder(new EmptyBorder(15, 25, 15, 25));
+        header.setPreferredSize(new Dimension(100, 95));
+        header.setBorder(new EmptyBorder(5, 25, 5, 25));
 
-        JLabel logo = new JLabel("🍃 Finora");
-        logo.setFont(new Font("Serif", Font.BOLD, 30));
-        logo.setForeground(darkGreen);
+        JLabel logo;
+        java.io.File logoFile =
+                new java.io.File("images/logo.png.jpeg");
 
-        JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
-        right.setBackground(Color.WHITE);
+        if (logoFile.exists()) {
+            ImageIcon original = new ImageIcon(logoFile.getPath());
+            Image scaled = original.getImage()
+                    .getScaledInstance(200, 120, Image.SCALE_SMOOTH);
 
-        JLabel loginText = new JLabel("Already have an account?");
-        loginText.setForeground(textColor);
-
-        JButton loginButton = new JButton("Login");
-        styleOutlineButton(loginButton);
-        loginButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(
-                        this, "Connect this button to your login page."));
-
-        right.add(loginText);
-        right.add(loginButton);
+            logo = new JLabel(new ImageIcon(scaled));
+        } else {
+            logo = new JLabel("🍃 Finora");
+            logo.setFont(
+                    new Font("Times New Roman", Font.BOLD, 30));
+            logo.setForeground(darkGreen);
+        }
 
         header.add(logo, BorderLayout.WEST);
-        header.add(right, BorderLayout.EAST);
-
         return header;
     }
 
-    private JPanel createWelcomePanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(mint);
-        panel.setBorder(new EmptyBorder(25, 15, 20, 15));
+    private JPanel createLabeledField(
+            String labelText, JComponent field) {
 
-        JLabel heading = new JLabel(
-                "<html>Take Control<br>of Your Finances</html>");
-        heading.setFont(new Font("Serif", Font.BOLD, 35));
-        heading.setForeground(darkGreen);
-        heading.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        JLabel description = new JLabel(
-                "<html>Track your expenses, set your goals,<br>"
-                + "and build a better financial future with Finora.</html>");
-        description.setFont(new Font("SansSerif", Font.PLAIN, 16));
-        description.setForeground(textColor);
-        description.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        panel.add(heading);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(description);
-        panel.add(Box.createVerticalStrut(35));
-
-        addFeature(panel, "📊", "Track Expenses",
-                "Know where your money goes");
-        addFeature(panel, "🎯", "Set Goals",
-                "Achieve your dreams step by step");
-        addFeature(panel, "🛡", "Stay Secure",
-                "Your data, always protected");
-        addFeature(panel, "🍃", "Build Better Habits",
-                "Small steps, big results");
-
-        return panel;
-    }
-
-    private void addFeature(JPanel panel, String icon,
-                            String title, String subtitle) {
-        JPanel feature = new JPanel(new BorderLayout(12, 0));
-        feature.setBackground(mint);
-        feature.setAlignmentX(Component.LEFT_ALIGNMENT);
-        feature.setMaximumSize(new Dimension(Integer.MAX_VALUE, 65));
-        feature.setBorder(new EmptyBorder(5, 0, 5, 0));
-
-        JLabel iconLabel = new JLabel(icon, SwingConstants.CENTER);
-        iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 25));
-        iconLabel.setPreferredSize(new Dimension(48, 45));
-
-        JPanel labels = new JPanel();
-        labels.setLayout(new BoxLayout(labels, BoxLayout.Y_AXIS));
-        labels.setBackground(mint);
-
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
-        titleLabel.setForeground(darkGreen);
-
-        JLabel subLabel = new JLabel(subtitle);
-        subLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        subLabel.setForeground(textColor);
-
-        labels.add(titleLabel);
-        labels.add(Box.createVerticalStrut(5));
-        labels.add(subLabel);
-
-        feature.add(iconLabel, BorderLayout.WEST);
-        feature.add(labels, BorderLayout.CENTER);
-
-        panel.add(feature);
-        panel.add(Box.createVerticalStrut(8));
-    }
-
-    private JPanel createLabeledField(String labelText, JComponent field) {
         JPanel panel = new JPanel(new BorderLayout(12, 0));
         panel.setBackground(Color.WHITE);
-        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 63));
+        panel.setPreferredSize(new Dimension(520, 48));
+        panel.setMaximumSize(new Dimension(520, 48));
 
         JLabel label = new JLabel(labelText);
-        label.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        label.setFont(
+                new Font("Times New Roman", Font.BOLD, 16));
         label.setForeground(darkGreen);
-        label.setPreferredSize(new Dimension(145, 45));
+        label.setPreferredSize(new Dimension(150, 40));
 
         panel.add(label, BorderLayout.WEST);
         panel.add(field, BorderLayout.CENTER);
@@ -164,6 +104,8 @@ public class FinoraRegistration extends JFrame {
     private JPanel createFormPanel() {
         JPanel card = new JPanel(new GridBagLayout());
         card.setBackground(Color.WHITE);
+        card.setPreferredSize(new Dimension(650, 540));
+
         card.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(
                         new Color(213, 236, 230), 1),
@@ -174,52 +116,50 @@ public class FinoraRegistration extends JFrame {
         form.setBackground(Color.WHITE);
 
         JLabel heading = new JLabel("Create Your Account");
-        heading.setFont(new Font("Serif", Font.BOLD, 29));
+        heading.setFont(
+                new Font("Times New Roman", Font.BOLD, 32));
         heading.setForeground(darkGreen);
         heading.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel subtitle = new JLabel(
-                "Start your journey towards better financial health");
-        subtitle.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        subtitle.setForeground(textColor);
-        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         form.add(heading);
-        form.add(Box.createVerticalStrut(8));
-        form.add(subtitle);
         form.add(Box.createVerticalStrut(25));
 
         nameField = createTextField("Full Name");
         emailField = createTextField("Email Address");
         phoneField = createTextField("Phone Number");
         passwordField = createPasswordField("Password");
-        confirmPasswordField = createPasswordField("Confirm Password");
+        confirmPasswordField =
+                createPasswordField("Confirm Password");
 
         form.add(createLabeledField("Username", nameField));
-        form.add(Box.createVerticalStrut(12));
+        form.add(Box.createVerticalStrut(15));
 
         form.add(createLabeledField("Email Address", emailField));
-        form.add(Box.createVerticalStrut(12));
+        form.add(Box.createVerticalStrut(15));
 
         form.add(createLabeledField("Phone Number", phoneField));
-        form.add(Box.createVerticalStrut(12));
+        form.add(Box.createVerticalStrut(15));
 
         form.add(createLabeledField("Password", passwordField));
-        form.add(Box.createVerticalStrut(12));
+        form.add(Box.createVerticalStrut(15));
 
-        form.add(createLabeledField("Confirm Password", confirmPasswordField));
-        form.add(Box.createVerticalStrut(22));
+        form.add(createLabeledField(
+                "Confirm Password", confirmPasswordField));
+        form.add(Box.createVerticalStrut(25));
 
         JButton registerButton = new JButton("Register");
-        registerButton.setFont(new Font("SansSerif", Font.BOLD, 15));
+        registerButton.setFont(
+                new Font("Times New Roman", Font.BOLD, 19));
         registerButton.setForeground(Color.WHITE);
         registerButton.setBackground(darkGreen);
         registerButton.setFocusPainted(false);
         registerButton.setBorderPainted(false);
-        registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        registerButton.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE, 48));
+        registerButton.setCursor(
+                new Cursor(Cursor.HAND_CURSOR));
+        registerButton.setPreferredSize(new Dimension(520, 48));
+        registerButton.setMaximumSize(new Dimension(520, 48));
         registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         registerButton.addActionListener(e -> registerUser());
 
         form.add(registerButton);
@@ -230,41 +170,35 @@ public class FinoraRegistration extends JFrame {
 
     private JTextField createTextField(String placeholder) {
         JTextField field = new JTextField();
-        field.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        field.setFont(
+                new Font("Times New Roman", Font.PLAIN, 17));
         field.setForeground(textColor);
-        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 43));
-        field.setPreferredSize(new Dimension(600, 63));
+        field.setPreferredSize(new Dimension(350, 42));
+        field.setMinimumSize(new Dimension(200, 42));
+
         field.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(
                         new Color(195, 222, 220), 1),
                 new EmptyBorder(8, 12, 8, 12)));
+
         field.setToolTipText(placeholder);
         return field;
     }
 
     private JPasswordField createPasswordField(String placeholder) {
         JPasswordField field = new JPasswordField();
-        field.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 43));
-        field.setPreferredSize(new Dimension(600, 63));
+        field.setFont(
+                new Font("Times New Roman", Font.PLAIN, 17));
+        field.setPreferredSize(new Dimension(350, 42));
+        field.setMinimumSize(new Dimension(200, 42));
+
         field.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(
                         new Color(195, 222, 220), 1),
                 new EmptyBorder(8, 12, 8, 12)));
+
         field.setToolTipText(placeholder);
         return field;
-    }
-
-    private void styleOutlineButton(JButton button) {
-        button.setFont(new Font("SansSerif", Font.BOLD, 13));
-        button.setForeground(darkGreen);
-        button.setBackground(Color.WHITE);
-        button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        button.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(
-                        new Color(0, 155, 145), 1),
-                new EmptyBorder(8, 16, 8, 16)));
     }
 
     private void registerUser() {
@@ -277,16 +211,20 @@ public class FinoraRegistration extends JFrame {
 
         if (name.isEmpty() || email.isEmpty() || phone.isEmpty()
                 || password.length == 0 || confirm.length == 0) {
+
             Arrays.fill(password, '\0');
             Arrays.fill(confirm, '\0');
 
             JOptionPane.showMessageDialog(this,
                     "Please fill in all fields.",
-                    "Missing Details", JOptionPane.WARNING_MESSAGE);
+                    "Missing Details",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+        if (!email.matches(
+                "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+
             Arrays.fill(password, '\0');
             Arrays.fill(confirm, '\0');
 
@@ -319,7 +257,8 @@ public class FinoraRegistration extends JFrame {
 
             JOptionPane.showMessageDialog(this,
                     "Passwords do not match.",
-                    "Registration Error", JOptionPane.ERROR_MESSAGE);
+                    "Registration Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -330,7 +269,8 @@ public class FinoraRegistration extends JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
                     "Could not secure the password.",
-                    "Security Error", JOptionPane.ERROR_MESSAGE);
+                    "Security Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         } finally {
             Arrays.fill(password, '\0');
@@ -347,7 +287,8 @@ public class FinoraRegistration extends JFrame {
                 JOptionPane.showMessageDialog(this,
                         "Database connection failed. "
                         + "Please check DBConnection.java.",
-                        "Connection Error", JOptionPane.ERROR_MESSAGE);
+                        "Connection Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -361,14 +302,18 @@ public class FinoraRegistration extends JFrame {
 
                 if (rows > 0) {
                     JOptionPane.showMessageDialog(this,
-                            "Registration successful! Welcome to Finora.",
-                            "Success", JOptionPane.INFORMATION_MESSAGE);
+                            "Registration successful! "
+                            + "Please log in to Finora.",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
 
-                    nameField.setText("");
-                    emailField.setText("");
-                    phoneField.setText("");
-                    passwordField.setText("");
-                    confirmPasswordField.setText("");
+                    // Open the login page after successful registration.
+                    SwingUtilities.invokeLater(() -> {
+                        new FinoraLogin().setVisible(true);
+                    });
+
+                    // Close the registration page.
+                    dispose();
                 }
             }
 
@@ -376,11 +321,13 @@ public class FinoraRegistration extends JFrame {
             if (e.getErrorCode() == 1062) {
                 JOptionPane.showMessageDialog(this,
                         "This email is already registered.",
-                        "Duplicate Email", JOptionPane.WARNING_MESSAGE);
+                        "Duplicate Email",
+                        JOptionPane.WARNING_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Registration failed. Please check the database.",
-                        "Database Error", JOptionPane.ERROR_MESSAGE);
+                        "Database Error",
+                        JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
             }
         }
@@ -390,14 +337,16 @@ public class FinoraRegistration extends JFrame {
         byte[] salt = new byte[16];
         new SecureRandom().nextBytes(salt);
 
-        PBEKeySpec spec = new PBEKeySpec(password, salt, 210000, 256);
+        PBEKeySpec spec =
+                new PBEKeySpec(password, salt, 210000, 256);
 
         try {
             SecretKeyFactory factory =
                     SecretKeyFactory.getInstance(
                             "PBKDF2WithHmacSHA256");
 
-            byte[] hash = factory.generateSecret(spec).getEncoded();
+            byte[] hash =
+                    factory.generateSecret(spec).getEncoded();
 
             return Base64.getEncoder().encodeToString(salt)
                     + ":"
@@ -415,6 +364,7 @@ public class FinoraRegistration extends JFrame {
             } catch (Exception ignored) {
                 // Use the default Swing appearance.
             }
+
             new FinoraRegistration().setVisible(true);
         });
     }
