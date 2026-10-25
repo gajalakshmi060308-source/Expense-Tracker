@@ -24,7 +24,7 @@ public class FinoraRegistration extends JFrame {
         setTitle("Finora | Create Account");
         setSize(1100, 720);
         setMinimumSize(new Dimension(900, 650));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -307,13 +307,10 @@ public class FinoraRegistration extends JFrame {
                             "Success",
                             JOptionPane.INFORMATION_MESSAGE);
 
-                    // Open the login page after successful registration.
-                    SwingUtilities.invokeLater(() -> {
-                        new FinoraLogin().setVisible(true);
-                    });
-
-                    // Close the registration page.
+                    // Close the registration page and open the login page.
                     dispose();
+                    FinoraLogin loginPage = new FinoraLogin();
+                    loginPage.setVisible(true);
                 }
             }
 

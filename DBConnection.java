@@ -103,6 +103,25 @@ CREATE TABLE IF NOT EXISTS expense_categories (
 );""";
 stmt.executeUpdate(createCategoryTable);
 
+String createSavingsGoalsTable = """
+    CREATE TABLE IF NOT EXISTS savings_goals (
+        goal_id INT PRIMARY KEY AUTO_INCREMENT,
+        user_id INT NOT NULL,
+        goal_name VARCHAR(100) NOT NULL,
+        target_amount DECIMAL(12,2) NOT NULL,
+        saved_amount DECIMAL(12,2) DEFAULT 0.00,
+        target_date DATE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id)
+            REFERENCES users(user_id)
+            ON DELETE CASCADE
+    )
+    """;
+
+stmt.executeUpdate(createSavingsGoalsTable);
+
+System.out.println("Savings goals table is ready!");
+
             }
 
             System.out.println(

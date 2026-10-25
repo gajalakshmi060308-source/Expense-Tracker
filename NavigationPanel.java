@@ -30,8 +30,10 @@ public class NavigationPanel extends JPanel {
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-setBorder(new EmptyBorder(5, 22, 5, 25));
-setPreferredSize(new Dimension(100, 90));
+
+        // Header size and padding
+        setBorder(new EmptyBorder(5, 22, 5, 25));
+        setPreferredSize(new Dimension(100, 82));
 
         // Hamburger button
         JButton menuButton = new JButton("\u2630");
@@ -43,48 +45,48 @@ setPreferredSize(new Dimension(100, 90));
         menuButton.setMargin(new Insets(0, 0, 0, 0));
         menuButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Finora logo - larger and centered vertically
         // Finora logo
-JLabel logoImage = new JLabel();
+        JLabel logoImage = new JLabel();
 
-ImageIcon originalLogo =
-        new ImageIcon("images/logo.png.jpeg");
+        ImageIcon originalLogo =
+                new ImageIcon("images/logo.png.jpeg");
 
-if (originalLogo.getIconWidth() > 0) {
+        if (originalLogo.getIconWidth() > 0) {
 
-    int logoWidth = 220;
-    int logoHeight = 70;
+            int logoWidth = 200;
+            int logoHeight = 120;
 
-    Image scaledImage = originalLogo.getImage()
-            .getScaledInstance(
-                    logoWidth, logoHeight, Image.SCALE_SMOOTH);
+            Image scaledImage = originalLogo.getImage()
+                    .getScaledInstance(
+                            logoWidth,
+                            logoHeight,
+                            Image.SCALE_SMOOTH);
 
-    logoImage.setIcon(new ImageIcon(scaledImage));
+            logoImage.setIcon(new ImageIcon(scaledImage));
 
-} else {
-    logoImage.setText("Finora");
-    logoImage.setFont(
-            new Font("Times New Roman", Font.BOLD, 34));
-    logoImage.setForeground(darkGreen);
-}
+        } else {
+            logoImage.setText("Finora");
+            logoImage.setFont(
+                    new Font("Times New Roman", Font.BOLD, 34));
+            logoImage.setForeground(darkGreen);
+        }
 
-logoImage.setPreferredSize(new Dimension(220, 70));
-logoImage.setHorizontalAlignment(SwingConstants.LEFT);
-logoImage.setVerticalAlignment(SwingConstants.CENTER);
+        logoImage.setPreferredSize(new Dimension(200, 70));
+        logoImage.setHorizontalAlignment(SwingConstants.LEFT);
+        logoImage.setVerticalAlignment(SwingConstants.CENTER);
 
         // Left side: hamburger and logo
-        // Hamburger and logo alignment
-JPanel left = new JPanel(
-        new FlowLayout(FlowLayout.LEFT, 12, 0));
+        JPanel left = new JPanel(
+                new FlowLayout(FlowLayout.LEFT, 12, 0));
 
-left.setBackground(Color.WHITE);
-left.setOpaque(true);
-left.setAlignmentY(Component.CENTER_ALIGNMENT);
+        left.setBackground(Color.WHITE);
+        left.setOpaque(true);
+        left.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-menuButton.setPreferredSize(new Dimension(35, 46));
+        menuButton.setPreferredSize(new Dimension(35, 46));
 
-left.add(menuButton);
-left.add(logoImage);
+        left.add(menuButton);
+        left.add(logoImage);
 
         // Custom white dropdown arrow
         Icon arrowIcon = new Icon() {
@@ -106,7 +108,8 @@ left.add(logoImage);
                     int x,
                     int y) {
 
-                Graphics2D g2 = (Graphics2D) graphics.create();
+                Graphics2D g2 =
+                        (Graphics2D) graphics.create();
 
                 g2.setColor(Color.WHITE);
                 g2.setRenderingHint(
@@ -121,17 +124,20 @@ left.add(logoImage);
             }
         };
 
-        // Profile button with a user symbol
-JButton profileButton =
-        new JButton(fullName, arrowIcon);
+        // Profile button
+        JButton profileButton =
+                new JButton(fullName, arrowIcon);
 
         profileButton.setFont(
                 new Font("Times New Roman", Font.BOLD, 18));
         profileButton.setForeground(Color.WHITE);
         profileButton.setBackground(darkGreen);
-        profileButton.setHorizontalAlignment(SwingConstants.CENTER);
-        profileButton.setHorizontalTextPosition(SwingConstants.LEFT);
-        profileButton.setVerticalAlignment(SwingConstants.CENTER);
+        profileButton.setHorizontalAlignment(
+                SwingConstants.CENTER);
+        profileButton.setHorizontalTextPosition(
+                SwingConstants.LEFT);
+        profileButton.setVerticalAlignment(
+                SwingConstants.CENTER);
         profileButton.setIconTextGap(12);
         profileButton.setMargin(new Insets(0, 12, 0, 12));
         profileButton.setFocusPainted(false);
@@ -143,7 +149,8 @@ JButton profileButton =
 
         // Adjust width to fit the profile name and icons
         FontMetrics metrics =
-                profileButton.getFontMetrics(profileButton.getFont());
+                profileButton.getFontMetrics(
+                        profileButton.getFont());
 
         int profileWidth = metrics.stringWidth(
                 "\u263A  " + fullName)
@@ -152,16 +159,16 @@ JButton profileButton =
                 + 32;
 
         // Profile button size
-profileButton.setPreferredSize(
-        new Dimension(Math.max(175, profileWidth), 46));
+        profileButton.setPreferredSize(
+                new Dimension(Math.max(175, profileWidth), 46));
 
-// Position the profile button at the right
-JPanel right = new JPanel(
-        new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        // Position profile button at the right
+        JPanel right = new JPanel(
+                new FlowLayout(FlowLayout.RIGHT, 0, 0));
 
-right.setBackground(Color.WHITE);
-right.setOpaque(true);
-right.add(profileButton);
+        right.setBackground(Color.WHITE);
+        right.setOpaque(true);
+        right.add(profileButton);
 
         add(left, BorderLayout.WEST);
         add(right, BorderLayout.EAST);
@@ -172,33 +179,36 @@ right.add(profileButton);
         menuButton.addActionListener(e -> toggleDrawer());
 
         // Profile popup menu
-        
-        // Profile popup menu
         JPopupMenu userMenu = new JPopupMenu();
         userMenu.setBackground(Color.WHITE);
         userMenu.setLightWeightPopupEnabled(false);
 
-        userMenu.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(popupBorder, 1),
-                BorderFactory.createEmptyBorder(3, 3, 3, 3)));
+        userMenu.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                popupBorder, 1),
+                        BorderFactory.createEmptyBorder(
+                                3, 3, 3, 3)));
 
-        // My Profile item with icon
+        // My Profile item
         JMenuItem profileItem =
                 createProfileMenuItem(" My Profile");
 
         profileItem.setIcon(new MenuIcon(true));
 
-
         profileItem.addActionListener(e ->
                 openNewPage(
-                        new ProfileFrame(fullName, email, onLogout)));
+                        new ProfileFrame(
+                                fullName, email, onLogout)));
 
-        // Logout item with icon
+        // Logout item
         JMenuItem logoutItem =
                 createProfileMenuItem(" Logout");
-logoutItem.setIcon(new MenuIcon(false));
+
+        logoutItem.setIcon(new MenuIcon(false));
 
         logoutItem.addActionListener(e -> {
+
             int choice = JOptionPane.showConfirmDialog(
                     this,
                     "Are you sure you want to logout?",
@@ -216,9 +226,11 @@ logoutItem.setIcon(new MenuIcon(false));
 
         // Style the separator
         for (Component component : userMenu.getComponents()) {
+
             if (component instanceof JPopupMenu.Separator) {
                 component.setBackground(popupBorder);
-                component.setPreferredSize(new Dimension(180, 1));
+                component.setPreferredSize(
+                        new Dimension(180, 1));
             }
         }
 
@@ -237,56 +249,60 @@ logoutItem.setIcon(new MenuIcon(false));
         });
     }
 
-    
-private static class MenuIcon implements Icon {
+    // Icons for the profile popup menu
+    private static class MenuIcon implements Icon {
 
-    private final boolean profile;
+        private final boolean profile;
 
-    MenuIcon(boolean profile) {
-        this.profile = profile;
-    }
-
-    @Override
-    public int getIconWidth() {
-        return 20;
-    }
-
-    @Override
-    public int getIconHeight() {
-        return 20;
-    }
-
-    @Override
-    public void paintIcon(
-            Component c, Graphics g, int x, int y) {
-
-        Graphics2D g2 = (Graphics2D) g.create();
-        g2.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        g2.setColor(new Color(0, 119, 94));
-        g2.setStroke(new BasicStroke(1.8f));
-
-        if (profile) {
-            // Head
-            g2.drawOval(x + 7, y + 2, 7, 7);
-
-            // Shoulders/body
-            g2.drawArc(x + 3, y + 8, 15, 12, 0, 180);
-        } else {
-            // Logout door
-            g2.drawRect(x + 2, y + 2, 9, 15);
-
-            // Arrow pointing out
-            g2.drawLine(x + 7, y + 10, x + 18, y + 10);
-            g2.drawLine(x + 14, y + 6, x + 18, y + 10);
-            g2.drawLine(x + 14, y + 14, x + 18, y + 10);
+        MenuIcon(boolean profile) {
+            this.profile = profile;
         }
 
-        g2.dispose();
+        @Override
+        public int getIconWidth() {
+            return 20;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return 20;
+        }
+
+        @Override
+        public void paintIcon(
+                Component c, Graphics g, int x, int y) {
+
+            Graphics2D g2 = (Graphics2D) g.create();
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.setColor(new Color(0, 119, 94));
+            g2.setStroke(new BasicStroke(1.8f));
+
+            if (profile) {
+
+                // Head
+                g2.drawOval(x + 7, y + 2, 7, 7);
+
+                // Shoulders/body
+                g2.drawArc(x + 3, y + 8, 15, 12, 0, 180);
+
+            } else {
+
+                // Logout door
+                g2.drawRect(x + 2, y + 2, 9, 15);
+
+                // Arrow pointing out
+                g2.drawLine(x + 7, y + 10, x + 18, y + 10);
+                g2.drawLine(x + 14, y + 6, x + 18, y + 10);
+                g2.drawLine(x + 14, y + 14, x + 18, y + 10);
+            }
+
+            g2.dispose();
+        }
     }
-}
 
     // Style profile popup menu items
     private JMenuItem createProfileMenuItem(String text) {
@@ -298,20 +314,24 @@ private static class MenuIcon implements Icon {
         item.setForeground(darkGreen);
         item.setBackground(Color.WHITE);
         item.setOpaque(true);
-        item.setBorder(BorderFactory.createEmptyBorder(
-                10, 14, 10, 20));
+        item.setBorder(
+                BorderFactory.createEmptyBorder(
+                        10, 14, 10, 20));
         item.setPreferredSize(new Dimension(180, 40));
         item.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        item.addMouseListener(new java.awt.event.MouseAdapter() {
+        item.addMouseListener(
+                new java.awt.event.MouseAdapter() {
 
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
+            public void mouseEntered(
+                    java.awt.event.MouseEvent e) {
                 item.setBackground(hoverGreen);
             }
 
             @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
+            public void mouseExited(
+                    java.awt.event.MouseEvent e) {
                 item.setBackground(Color.WHITE);
             }
         });
@@ -324,9 +344,11 @@ private static class MenuIcon implements Icon {
 
         drawerPanel = new JPanel(new BorderLayout());
         drawerPanel.setBackground(Color.WHITE);
+
         drawerPanel.setBorder(
                 BorderFactory.createMatteBorder(
-                        0, 0, 0, 1, new Color(195, 229, 218)));
+                        0, 0, 0, 1,
+                        new Color(195, 229, 218)));
 
         // Sidebar heading
         JPanel drawerHeader = new JPanel(new BorderLayout());
@@ -355,28 +377,34 @@ private static class MenuIcon implements Icon {
 
         // Sidebar menu items
         JPanel items = new JPanel();
-        items.setLayout(new BoxLayout(items, BoxLayout.Y_AXIS));
+
+        items.setLayout(
+                new BoxLayout(items, BoxLayout.Y_AXIS));
+
         items.setBackground(Color.WHITE);
-        items.setBorder(new EmptyBorder(18, 10, 18, 10));
+        items.setBorder(
+                new EmptyBorder(18, 10, 18, 10));
 
         addDrawerItem(items, "\u2302   Dashboard", "dashboard");
         addDrawerItem(items, "\uFF0B   Add Income", "income");
         addDrawerItem(items, "\u2212   Add Expense", "expense");
         addDrawerItem(items, "\uD83D\uDCB0   Budget Planning", "budget");
-        addDrawerItem(items, "\u25A5   Reports", "reports");
         addDrawerItem(items, "\u25F7   Transaction History", "history");
+        addDrawerItem(items, "\u2605   Savings Goals", "savings");
 
         drawerPanel.add(drawerHeader, BorderLayout.NORTH);
         drawerPanel.add(items, BorderLayout.CENTER);
 
         // Start hidden
-        drawerPanel.setPreferredSize(new Dimension(0, 100));
+        drawerPanel.setPreferredSize(
+                new Dimension(0, 100));
     }
 
     // Show or hide sidebar with sliding-width animation
     private void toggleDrawer() {
 
-        Window window = SwingUtilities.getWindowAncestor(this);
+        Window window =
+                SwingUtilities.getWindowAncestor(this);
 
         if (!(window instanceof JFrame)) {
             return;
@@ -405,11 +433,15 @@ private static class MenuIcon implements Icon {
 
             drawerTimer.addActionListener(e -> {
 
-                int width = drawerPanel.getPreferredSize().width;
-                int nextWidth = Math.min(width + 25, drawerWidth);
+                int width =
+                        drawerPanel.getPreferredSize().width;
+
+                int nextWidth =
+                        Math.min(width + 25, drawerWidth);
 
                 drawerPanel.setPreferredSize(
-                        new Dimension(nextWidth, content.getHeight()));
+                        new Dimension(
+                                nextWidth, content.getHeight()));
 
                 content.revalidate();
                 content.repaint();
@@ -429,11 +461,15 @@ private static class MenuIcon implements Icon {
 
             drawerTimer.addActionListener(e -> {
 
-                int width = drawerPanel.getPreferredSize().width;
-                int nextWidth = Math.max(width - 25, 0);
+                int width =
+                        drawerPanel.getPreferredSize().width;
+
+                int nextWidth =
+                        Math.max(width - 25, 0);
 
                 drawerPanel.setPreferredSize(
-                        new Dimension(nextWidth, content.getHeight()));
+                        new Dimension(
+                                nextWidth, content.getHeight()));
 
                 content.revalidate();
                 content.repaint();
@@ -456,27 +492,34 @@ private static class MenuIcon implements Icon {
 
         JButton item = new JButton(title);
 
-        item.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        item.setFont(
+                new Font("SansSerif", Font.PLAIN, 16));
         item.setForeground(new Color(35, 75, 65));
         item.setBackground(Color.WHITE);
-        item.setHorizontalAlignment(SwingConstants.LEFT);
+        item.setHorizontalAlignment(
+                SwingConstants.LEFT);
         item.setMaximumSize(
                 new Dimension(Integer.MAX_VALUE, 48));
         item.setPreferredSize(new Dimension(230, 48));
-        item.setBorder(new EmptyBorder(10, 14, 10, 10));
+        item.setBorder(
+                new EmptyBorder(10, 14, 10, 10));
         item.setFocusPainted(false);
         item.setBorderPainted(false);
-        item.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        item.setCursor(
+                new Cursor(Cursor.HAND_CURSOR));
 
-        item.addMouseListener(new java.awt.event.MouseAdapter() {
+        item.addMouseListener(
+                new java.awt.event.MouseAdapter() {
 
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent e) {
+            public void mouseEntered(
+                    java.awt.event.MouseEvent e) {
                 item.setBackground(hoverGreen);
             }
 
             @Override
-            public void mouseExited(java.awt.event.MouseEvent e) {
+            public void mouseExited(
+                    java.awt.event.MouseEvent e) {
                 item.setBackground(Color.WHITE);
             }
         });
@@ -507,16 +550,15 @@ private static class MenuIcon implements Icon {
                             new BudgetPlanningFrame(fullName, email));
                     break;
 
-                case "reports":
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "The Reports page will be added next.");
+                case "history":
+                    openNewPage(
+                            new TransactionHistoryFrame(
+                                    fullName, email));
                     break;
 
-                case "history":
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "The Transaction History page will be added next.");
+                case "savings":
+                    openNewPage(
+                            new SavingsGoalsFrame(fullName, email));
                     break;
             }
         });
@@ -534,7 +576,9 @@ private static class MenuIcon implements Icon {
         drawerOpen = false;
 
         if (ownerFrame != null) {
+
             Container content = ownerFrame.getContentPane();
+
             content.remove(drawerPanel);
             content.revalidate();
             content.repaint();
@@ -543,7 +587,8 @@ private static class MenuIcon implements Icon {
 
     private void openNewPage(JFrame frame) {
 
-        Window current = SwingUtilities.getWindowAncestor(this);
+        Window current =
+                SwingUtilities.getWindowAncestor(this);
 
         if (current != null) {
             current.dispose();
