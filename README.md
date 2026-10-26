@@ -49,27 +49,31 @@ Only retain features that are implemented in the current version of the project.
 🛠️ Technologies Used
 
 Technologies used:
-Java
-Application logic and object-oriented programming
-Java Swing
-Desktop graphical user interface
-MySQL
-Relational database
-JDBC
-Database connectivity
-MySQL Workbench
-Database design and management
-Visual Studio Code
-Development environment
-Git and GitHub
-Version control and collaboration
+
+Java:Application logic and object-oriented programming
+
+Java Swing:Desktop graphical user interface
+
+MySQL:Relational database
+
+JDBC:Database connectivity
+
+MySQL Workbench:Database design and management
+
+Visual Studio Code:Development environment
+
+Git and GitHub:Version control and collaboration
 
 🏗️ Application Architecture
 
 Finora follows a desktop application architecture:
+
 Presentation Layer: Java Swing components display forms, navigation, dashboards, and transaction records.
+
 Application Logic Layer: Java classes validate user input and implement finance-related operations.
+
 Database Layer: JDBC executes SQL queries to communicate with MySQL.
+
 Storage Layer: MySQL stores user details, income, expenses, budgets, categories, and savings goals.
 
 ⚙️ Prerequisites
