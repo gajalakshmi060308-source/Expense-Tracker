@@ -110,9 +110,9 @@ Open the project in Visual Studio Code.
 
 Ensure the JDK and MySQL Connector/J driver are configured.
 
-Open the Java file containing the application's main() method.
-
-Click Run Java.
+Execute these commands in the terminal:
+For compilation use: javac -cp ".;lib\mysql-connector-j-26.10.0.jar" *.java  
+For running the application use:java -cp ".;lib\mysql-connector-j-26.10.0.jar" FinoraHero
 
 Finora will open its desktop interface, allowing you to register and log in.
 
